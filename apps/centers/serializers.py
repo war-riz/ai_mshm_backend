@@ -4,7 +4,7 @@ apps/centers/serializers.py
 Serializers for HCC, FHC, and ClinicianProfile.
 """
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema_field
 from .models import HealthCareCenter, FederalHealthCenter, ClinicianProfile
 
 
