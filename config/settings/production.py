@@ -6,6 +6,8 @@ import sentry_sdk  # pip install sentry-sdk
 from decouple import config
 
 DEBUG = False
+ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
 
 # ── Security hardening ────────────────────────────────────────────────────────
 SECURE_BROWSER_XSS_FILTER = True
