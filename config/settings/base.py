@@ -193,14 +193,24 @@ else:
     }
 
 # ── Celery ────────────────────────────────────────────────────────────────────
+FREE_TIER = config("FREE_TIER", default=False, cast=bool)
+
+if FREE_TIER:
+    CELERY_RESULT_BACKEND = "cache+memory://"  # no Redis needed
+    CELERY_TASK_ALWAYS_EAGER = True            # tasks run synchronously inline
+    CELERY_TASK_EAGER_PROPAGATES = True        # exceptions surface properly
+else:
+    CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
+
+
 CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_DEFAULT_QUEUE = "default"
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
 
 # Periodic task schedule
 try:

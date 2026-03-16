@@ -129,6 +129,7 @@ class ClinicianProfileView(APIView):
 
 # ── Admin: Full HCC Management ────────────────────────────────────────────────
 
+@extend_schema(operation_id="admin_hcc_list")
 class HCCAdminListView(APIView):
     """
     GET  /api/v1/centers/admin/hcc/   → list all
@@ -157,6 +158,7 @@ class HCCAdminListView(APIView):
         )
 
 
+@extend_schema(operation_id="admin_hcc_detail")
 class HCCAdminDetailView(APIView):
     """GET / PATCH / DELETE /api/v1/centers/admin/hcc/<id>/"""
     permission_classes = [IsAuthenticated, IsAdminUser]
@@ -195,6 +197,7 @@ class HCCAdminDetailView(APIView):
         return success_response(message=f"'{name}' deleted.")
 
 
+@extend_schema(operation_id="admin_fhc_list")
 class FHCAdminListView(APIView):
     """POST/GET /api/v1/centers/admin/fhc/ — Platform admin only."""
     permission_classes = [IsAuthenticated, IsAdminUser]
@@ -216,6 +219,7 @@ class FHCAdminListView(APIView):
         )
 
 
+@extend_schema(operation_id="admin_fhc_detail")
 class FHCAdminDetailView(APIView):
     """GET / PATCH / DELETE /api/v1/centers/admin/fhc/<id>/"""
     permission_classes = [IsAuthenticated, IsAdminUser]

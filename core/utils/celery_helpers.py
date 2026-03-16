@@ -7,9 +7,9 @@ def run_task(task, *args, **kwargs):
     or synchronously (for free tier without workers).
     """
     if getattr(settings, "FREE_TIER", False):
-        # Call the underlying function directly, skipping Celery
-        # task.func is the raw Python function for the task
-        return task.func(*args, **kwargs)
+        # Call the underlying run directly, skipping Celery
+        # task.run is the raw Python run for the task
+        return task.run(*args, **kwargs)
     else:
         # Run async via Celery worker
         return task.delay(*args, **kwargs)

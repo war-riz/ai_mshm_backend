@@ -45,6 +45,7 @@ class NotificationPreferencesView(APIView):
         return success_response(data=serializer.data, message="Notification preferences saved.")
 
 
+@extend_schema(operation_id="device_list")
 class ConnectedDeviceListView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -65,6 +66,7 @@ class ConnectedDeviceListView(APIView):
         )
 
 
+@extend_schema(operation_id="device_list")
 class ConnectedDeviceDetailView(APIView):
     permission_classes = [IsAuthenticated]
 

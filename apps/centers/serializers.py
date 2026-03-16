@@ -48,6 +48,7 @@ class FederalHealthCenterSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id", "created_at", "clinician_count", "notify_on_very_severe"]
 
+    @extend_schema_field(serializers.IntegerField())
     def get_clinician_count(self, obj):
         return obj.clinicians.filter(user__is_active=True).count()
 
