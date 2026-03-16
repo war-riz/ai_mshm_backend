@@ -59,11 +59,11 @@ def main():
     args = parser.parse_args()
 
     # Fetch connection strings from .env or use defaults
-    mongo_uri = config("MONGO_URI", "mongodb://localhost:27017")
+    database_uri = config("DATABASE_URL", "mongodb://localhost:27017")
     redis_url = config("REDIS_URL", "redis://localhost:6379/0")
 
     results = [
-        wait_for_mongodb(mongo_uri, args.timeout),
+        wait_for_mongodb(database_uri, args.timeout),
         wait_for_redis(redis_url, args.timeout),
     ]
 
