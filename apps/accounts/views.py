@@ -21,6 +21,7 @@ from .serializers import (
     ForgotPasswordSerializer,
     ResetPasswordSerializer,
     ChangePasswordSerializer,
+    ConfirmPasswordSerializer,
     LogoutSerializer, 
     UpdateProfileSerializer,
 )
@@ -242,3 +243,22 @@ class ChangePasswordView(APIView):
         request.user.set_password(serializer.validated_data["new_password"])
         request.user.save(update_fields=["password"])
         return success_response(message="Password changed successfully.")
+
+
+class DeleteAccountView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        tags=["Auth"],
+        request=ConfirmPasswordSerializer,
+        summary="Delete account",
+        description=(
+            "Permanently deletes the authenticated user's account and all associated data. "
+            "Requires current password confirmation. This action is irreversible."
+        ),
+    )
+    def post(self, request):
+        serializer = ConfirmPasswordSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        request.user.delete()
+        return success_response(message="Account deleted successfully.")

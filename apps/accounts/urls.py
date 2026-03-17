@@ -15,6 +15,7 @@ from .views import (
     ResetPasswordView,
     MeView,
     ChangePasswordView,
+    DeleteAccountView
 )
 
 app_name = "accounts"
@@ -37,4 +38,5 @@ urlpatterns = [
     # Authenticated user
     path("me/",                      MeView.as_view(),               name="me"),
     path("me/change-password/",      ChangePasswordView.as_view(),   name="change-password"),
+    path("me/delete/",               DeleteAccountView.as_view(),    name="delete-account"),
 ]

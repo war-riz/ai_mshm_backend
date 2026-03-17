@@ -160,10 +160,21 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Current password is incorrect.")
         return value
 
+
+class ConfirmPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(help_text="Current password to confirm account deletion.")
+
+    def validate_password(self, value):
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Password is incorrect.")
+        return value
+
+
 # ── Logout ───────────────────────────────────────────────────────────────────
 
 class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField(help_text="The refresh token to blacklist.")        
+    refresh = serializers.CharField(help_text="The refresh token to blacklist.")   
 
 
 # ── Minimal update ────────────────────────────────────────────────────────────
