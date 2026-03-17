@@ -20,6 +20,8 @@ api_v1_patterns = [
     path("notifications/", include("apps.notifications.urls", namespace="notifications")),
     path("settings/",      include("apps.settings_app.urls",  namespace="settings_app")),
     path("centers/",       include("apps.centers.urls",        namespace="centers")),
+    path("checkin/",       include("apps.health_checkin.urls", namespace="health_checkin")),
+    path("predictions/",   include("apps.predictions.urls",    namespace="predictions")),
     path("health/",        HealthCheckView.as_view(), name="internal-health"),
 ]
 
@@ -35,7 +37,7 @@ urlpatterns = [
     path("api/schema/",  SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/",    SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/redoc/",   SpectacularRedocView.as_view(url_name="schema"),   name="redoc"),
-    path("health/", SimpleHealthView.as_view(), name="simple-health"),
+    path("health/",      SimpleHealthView.as_view(), name="simple-health"),
 ]
 
 if settings.DEBUG:

@@ -51,6 +51,8 @@ LOCAL_APPS = [
     "apps.notifications",
     "apps.settings_app",
     "apps.centers",
+    "apps.health_checkin",
+    "apps.predictions",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -218,7 +220,6 @@ try:
 except ImportError:
     pass
 
-# ── Email ─────────────────────────────────────────────────────────────────────
 # ── Email ─────────────────────────────────────────────────────────────────────
 RESEND_API_KEY = config("RESEND_API_KEY", default="")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="AI-MSHM <noreply@devalyze.space>")

@@ -33,4 +33,33 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute=0, hour="*/6"),
         "options": {"queue": "notifications"},
     },
+
+    # ── Missed session checker: hourly ────────────────────────────────────
+    "check-missed-sessions": {
+        "task":    "health_checkin.check_missed_sessions",
+        "schedule": crontab(minute=0),         # top of every hour
+        "options": {"queue": "default"},
+    },
+
+    # ── Check-in reminder nudges ──────────────────────────────────────────
+    "morning-checkin-nudge": {
+        "task":    "health_checkin.send_checkin_reminders",
+        "schedule": crontab(hour=8, minute=0),     # 8:00 AM
+        "options": {"queue": "notifications"},
+    },
+    "morning-checkin-nudge-followup": {
+        "task":    "health_checkin.send_checkin_reminders",
+        "schedule": crontab(hour=9, minute=0),     # 9:00 AM follow-up
+        "options": {"queue": "notifications"},
+    },
+    "evening-checkin-nudge": {
+        "task":    "health_checkin.send_checkin_reminders",
+        "schedule": crontab(hour=20, minute=0),    # 8:00 PM
+        "options": {"queue": "notifications"},
+    },
+    "evening-checkin-nudge-followup": {
+        "task":    "health_checkin.send_checkin_reminders",
+        "schedule": crontab(hour=21, minute=0),    # 9:00 PM follow-up
+        "options": {"queue": "notifications"},
+    },
 }
