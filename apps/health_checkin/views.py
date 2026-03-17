@@ -311,6 +311,11 @@ class EveningCheckinView(APIView):
         CheckinSessionService.save_partial(session)
         return success_response(data=EveningCheckinSerializer(obj).data, message="Evening data saved.")
 
+    @extend_schema(
+        tags=["Check-in"],
+        request=EveningCheckinSerializer,
+        summary="Partial update evening check-in",
+    )
     def patch(self, request, session_id):
         return self.post(request, session_id)
 

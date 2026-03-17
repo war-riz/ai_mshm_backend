@@ -4,6 +4,7 @@ from django.db import connections
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from core.responses import success_response, error_response
+from drf_spectacular.utils import extend_schema
 
 try:
     import redis
@@ -60,6 +61,7 @@ class SimpleHealthView(APIView):
     """
     permission_classes = [AllowAny]
 
+    @extend_schema(tags=["System"], summary="Simple health probe")
     def get(self, request):
         return success_response(message="Service online")
 
@@ -67,6 +69,7 @@ class SimpleHealthView(APIView):
 class RootView(APIView):
     permission_classes = [AllowAny]
 
+    @extend_schema(tags=["System"], summary="API root")
     def get(self, request):
         return success_response(
             message="Welcome to AI-MSHM API",
