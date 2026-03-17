@@ -219,14 +219,9 @@ except ImportError:
     pass
 
 # ── Email ─────────────────────────────────────────────────────────────────────
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
-EMAIL_PORT = config("EMAIL_PORT", cast=int, default=587)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
-EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="AI-MSHM <your-email@gmail.com>")
+# ── Email ─────────────────────────────────────────────────────────────────────
+RESEND_API_KEY = config("RESEND_API_KEY", default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="AI-MSHM <noreply@devalyze.space>")
 
 EMAIL_VERIFICATION_EXPIRY_HOURS = 24
 PASSWORD_RESET_EXPIRY_HOURS = 2
