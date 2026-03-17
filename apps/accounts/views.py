@@ -137,8 +137,6 @@ class VerifyEmailView(APIView):
 
 class ResendVerificationView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes   = [ScopedRateThrottle]
-    throttle_scope     = "auth"
 
     @extend_schema(
         tags=["Auth"],
