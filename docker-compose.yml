@@ -51,7 +51,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - .env.local
+      - .env.docker
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,7 +67,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env.local
+      - .env.docker
     depends_on:
       - redis
       - postgres
@@ -81,7 +81,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env.local
+      - .env.docker
     depends_on:
       - redis
       - postgres
