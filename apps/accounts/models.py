@@ -66,6 +66,10 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("role", User.Role.ADMIN)
         extra_fields.setdefault("is_email_verified", True)
+    
+        if not extra_fields.get("full_name"):
+            extra_fields["full_name"] = "Platform Admin"
+    
         return self.create_user(email, password, **extra_fields)
 
 
