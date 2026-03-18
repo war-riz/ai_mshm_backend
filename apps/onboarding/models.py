@@ -75,6 +75,24 @@ class OnboardingProfile(models.Model):
     rppg_baseline_captured = models.BooleanField(default=False)
     rppg_captured_at       = models.DateTimeField(null=True, blank=True)
 
+    # ── Step 7: PHC Registration (patients only) ──────────────────────────────
+    state = models.CharField(max_length=100, blank=True)
+    lga   = models.CharField(max_length=100, blank=True)
+    
+    registered_hcc = models.ForeignKey(
+        "centers.HealthCareCenter",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="registered_patients",
+        help_text=(
+            "The Primary Health Centre this patient is registered with. "
+            "Set during onboarding (patient picks from nearby PHCs filtered by state/LGA), "
+            "or auto-set when PHC staff registers a walk-in patient. "
+            "This is the patient's permanent home facility for Low/Moderate escalation routing."
+        ),
+    )
+
     # ── Meta ──────────────────────────────────────────────────────────────────
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
