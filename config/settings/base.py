@@ -244,7 +244,7 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
     "TAGS": [
         {"name": "Auth", "description": "Registration, login, tokens, email verification"},
-        {"name": "Onboarding", "description": "Patient onboarding flow (steps 1-5)"},
+        {"name": "Onboarding", "description": "Patient onboarding flow (steps 1-7)"},
         {"name": "Settings", "description": "Notification, device, privacy settings"},
         {"name": "Notifications", "description": "In-app notification management"},
     ],
