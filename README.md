@@ -9,7 +9,7 @@
 | Layer | Technology |
 |---|---|
 | Framework | Django 5 + Django REST Framework |
-| Database | MongoDB via Djongo |
+| Database | PostgreSQL |
 | Auth | JWT (SimpleJWT) with token blacklisting |
 | Real-time | Django Channels 4 + Redis channel layer |
 | Task Queue | Celery + Redis broker |
@@ -98,13 +98,18 @@ ai_mshm_backend/
 ### 1. Clone & environment
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/war-riz/ai_mshm_backend.git
 cd ai_mshm_backend
 cp .env.example .env
 # Edit .env with your values
 ```
+👉 Minimum required:
+DATABASE_URL=your-postgres-uri
+SECRET_KEY=anything-random
+FREE_TIER=True
+USE_IN_MEMORY_CHANNELS=True
 
-### 2. Option A — Docker (recommended)
+### 2. Option A — Docker (optional)
 
 ```bash
 docker compose up -d
@@ -119,12 +124,11 @@ python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Start MongoDB and Redis locally (or use Docker just for them)
-docker compose up -d mongodb redis
-
 python manage.py migrate
 python manage.py createsuperuser
-python manage.py runserver
+
+# In a first terminal - Start server
+daphne -b 0.0.0.0 -p 8000 config.asgi:application
 
 # In a second terminal — Celery worker
 celery -A config worker -l info
@@ -132,6 +136,25 @@ celery -A config worker -l info
 # In a third terminal — Celery beat (optional)
 celery -A config beat -l info
 ```
+
+---
+
+## 🌱 Branch Workflow
+
+DO NOT push directly to main.
+
+### Create a branch:
+```bash
+git checkout -b feature/your-feature-name
+Push changes:
+git add .
+git commit -m "feat: description"
+git push origin feature/your-feature-name
+```
+
+### Then:
+Open Pull Request
+Wait for approval before merge
 
 ---
 
@@ -275,5 +298,5 @@ NotificationService.send(
 )
 ```
 
-This persists the record to MongoDB **and** pushes it to the user's open WebSocket connection in one call.
+This persists the record to PostgreSQL **and** pushes it to the user's open WebSocket connection in one call.
 
