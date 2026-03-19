@@ -2,6 +2,7 @@
 AI-MSHM – Root URL Configuration
 All app-level URLs are versioned under /api/v1/
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -15,29 +16,28 @@ from core.views import RootView, HealthCheckView, SimpleHealthView
 
 # ── API v1 URL groups ─────────────────────────────────────────────────────────
 api_v1_patterns = [
-    path("auth/",          include("apps.accounts.urls",      namespace="accounts")),
-    path("onboarding/",    include("apps.onboarding.urls",    namespace="onboarding")),
+    path("auth/", include("apps.accounts.urls", namespace="accounts")),
+    path("onboarding/", include("apps.onboarding.urls", namespace="onboarding")),
     path("notifications/", include("apps.notifications.urls", namespace="notifications")),
-    path("settings/",      include("apps.settings_app.urls",  namespace="settings_app")),
-    path("centers/",       include("apps.centers.urls",        namespace="centers")),
-    path("checkin/",       include("apps.health_checkin.urls", namespace="health_checkin")),
-    path("predictions/",   include("apps.predictions.urls",    namespace="predictions")),
-    path("health/",        HealthCheckView.as_view(), name="internal-health"),
+    path("settings/", include("apps.settings_app.urls", namespace="settings_app")),
+    path("centers/", include("apps.centers.urls", namespace="centers")),
+    path("checkin/", include("apps.health_checkin.urls", namespace="health_checkin")),
+    path("predictions/", include("apps.predictions.urls", namespace="predictions")),
+    path("health/", HealthCheckView.as_view(), name="internal-health"),
+    path("", include("apps.ml_proxy.urls")),
 ]
 
 urlpatterns = [
     # ── Admin ────────────────────────────────────────────────────────────────
     path("admin/", admin.site.urls),
-
     # ── API v1 ───────────────────────────────────────────────────────────────
     path("api/v1/", include((api_v1_patterns, "v1"))),
-
     # ── OpenAPI Schema & Docs ─────────────────────────────────────────────────
     path("", RootView.as_view(), name="root"),
-    path("api/schema/",  SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/",    SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-    path("api/redoc/",   SpectacularRedocView.as_view(url_name="schema"),   name="redoc"),
-    path("health/",      SimpleHealthView.as_view(), name="simple-health"),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    path("health/", SimpleHealthView.as_view(), name="simple-health"),
 ]
 
 if settings.DEBUG:
@@ -46,6 +46,7 @@ if settings.DEBUG:
 
     try:
         import debug_toolbar
+
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
     except ImportError:
         pass

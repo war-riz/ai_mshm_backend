@@ -11,7 +11,7 @@ from decouple import config, Csv
 import dj_database_url
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent.parent.parent   # repo root
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # repo root
 
 # ── Security ──────────────────────────────────────────────────────────────────
 SECRET_KEY = config("SECRET_KEY")
@@ -53,6 +53,7 @@ LOCAL_APPS = [
     "apps.centers",
     "apps.health_checkin",
     "apps.predictions",
+    "apps.ml_proxy",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -61,7 +62,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "corsheaders.middleware.CorsMiddleware",          # must be before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",  # must be before CommonMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -106,7 +107,10 @@ AUTH_USER_MODEL = "accounts.User"
 # ── Password Validation ───────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 8}},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
+    },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
@@ -143,9 +147,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
@@ -201,8 +203,8 @@ FREE_TIER = config("FREE_TIER", default=False, cast=bool)
 
 if FREE_TIER:
     CELERY_RESULT_BACKEND = "cache+memory://"  # no Redis needed
-    CELERY_TASK_ALWAYS_EAGER = True            # tasks run synchronously inline
-    CELERY_TASK_EAGER_PROPAGATES = True        # exceptions surface properly
+    CELERY_TASK_ALWAYS_EAGER = True  # tasks run synchronously inline
+    CELERY_TASK_EAGER_PROPAGATES = True  # exceptions surface properly
 else:
     CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
 
@@ -255,4 +257,4 @@ SPECTACULAR_SETTINGS = {
 # ── App-level constants ───────────────────────────────────────────────────────
 APP_NAME = "AI-MSHM"
 FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
-
+NODEJS_ML_BASE_URL = config("NODEJS_ML_BASE_URL", default="http://localhost:3000")
